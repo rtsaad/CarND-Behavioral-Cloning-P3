@@ -3,6 +3,8 @@ import base64
 from datetime import datetime
 import os
 import shutil
+import cv2
+import matplotlib.pyplot as plt
 
 import numpy as np
 import socketio
@@ -33,7 +35,7 @@ class SimplePIController:
     def set_desired(self, desired):
         self.set_point = desired
 
-    def update(self, measurement):
+    def update(self, measurement):        
         # proportional error
         self.error = self.set_point - measurement
 
@@ -52,17 +54,21 @@ controller.set_desired(set_speed)
 def telemetry(sid, data):
     if data:
         # The current steering angle of the car
-        steering_angle = data["steering_angle"]
+        steering_angle = data["steering_angle"].replace(',','.')
         # The current throttle of the car
-        throttle = data["throttle"]
+        throttle = data["throttle"].replace(',','.')
         # The current speed of the car
-        speed = data["speed"]
+        speed = data["speed"].replace(',','.')
         # The current image from the center camera of the car
         imgString = data["image"]
         image = Image.open(BytesIO(base64.b64decode(imgString)))
-        image_array = np.asarray(image)
+        image_array = np.asarray(image)        
+        #image_array = cv2.cvtColor(image_array,cv2.COLOR_RGB2YUV)
+        #image_array = cv2.cvtColor(image_array,cv2.COLOR_RGB2GRAY)
+        image_array = image_array[70:140, 0:320]
+        image_array = cv2.resize(image_array, (200, 66), interpolation=cv2.INTER_AREA)
+        #image_array = image_array.reshape(66, 200, 1) #for gray scale 
         steering_angle = float(model.predict(image_array[None, :, :, :], batch_size=1))
-
         throttle = controller.update(float(speed))
 
         print(steering_angle, throttle)
@@ -88,8 +94,8 @@ def send_control(steering_angle, throttle):
     sio.emit(
         "steer",
         data={
-            'steering_angle': steering_angle.__str__(),
-            'throttle': throttle.__str__()
+            'steering_angle': steering_angle.__str__().replace('.',','),
+            'throttle': throttle.__str__().replace('.',',')
         },
         skip_sid=True)
 
