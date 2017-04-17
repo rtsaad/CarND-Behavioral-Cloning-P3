@@ -76,17 +76,17 @@ def generator(path, samples, batch_size=32, flip=False, left_rigth_camera=False)
             y_train = np.array(measurements)            
             yield sklearn.utils.shuffle(X_train, y_train)
 
-samples1 = []#load_samples('videos/merge/new1.csv')
-samples2 = []#load_samples('videos/merge/new2.csv')
-samples3 = []#load_samples('videos/merge/new3.csv')
+samples1 = load_samples('videos/merge/new1.csv')
+samples2 = load_samples('videos/merge/new2.csv')
+samples3 = load_samples('videos/merge/new3.csv')
 samples4 = []#load_samples('videos/merge/new_inverse1.csv')
 samples5 = []#load_samples('videos/merge/new_inverse23.csv')
 samples6 = load_samples('videos/merge/driving_log2.csv')
-samples7 = []#load_samples('videos/merge/slow_log1.csv')
-samples8 = []#load_samples('videos/merge/corner_log2.csv')
-samples9 = []#load_samples('videos/merge/corner_log3.csv')
-samples10 = []#load_samples('videos/merge/corner_log4.csv')
-samples11 = load_samples('videos/merge/track2_log1.csv')
+samples7 = load_samples('videos/merge/slow_log1.csv')
+samples8 = load_samples('videos/merge/corner_log3.csv')
+samples9 = load_samples('videos/merge/driving_log5.csv')
+samples10 = load_samples('videos/merge/driving_log6.csv')
+samples11 = []#load_samples('videos/merge/track2_log1.csv')
 samples = samples1 + samples2 + samples3 + samples4 + samples5 + samples6 + samples7 + samples8 + samples9 + samples10 + samples11
 train_samples, validation_samples = train_test_split(samples, test_size=0.2)
 
@@ -159,7 +159,7 @@ history_object = model.fit_generator(train_generator,
                                      validation_data=validation_generator,
                                      #callbacks=[checkpoint],
                                      nb_val_samples=validation_samples_size,
-                                     nb_epoch=5,
+                                     nb_epoch=20,
                                      verbose=1)
 
 #save model
