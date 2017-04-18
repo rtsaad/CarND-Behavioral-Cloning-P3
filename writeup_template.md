@@ -26,7 +26,7 @@ This project requires the [Udacity Simulator](https://github.com/udacity/self-dr
 [//]: # (Image References)
 
 [image1]: simulator.png "NN Driving the car"
-[image2]: (original.jpg | width=100) "Recovery Image"
+[image2]: (original.jpg) "Recovery Image"
 [image3]: (flip.png) "Flipped Image"
 [image4]: (crop.png) "Croped Image"
 [image5]: (resize.png) "Resized Image"
