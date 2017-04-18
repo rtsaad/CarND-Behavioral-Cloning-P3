@@ -54,17 +54,20 @@ The data set used to train the model was obtained from the Udacity Simulator. Th
 
 The recovery from sides was achieved using the left and right camera images by adding a "correction angle" to the steering to force the car to regain the center of the road. Finally, the data collection was also augmented by flipping the center camera image otherwise the car would have a tendency to turn to the left because we collected data following only one direction. All this together proved sufficient to achieve the smooth steering shown in our results ([video](https://github.com/otomata/CarND-Behavioral-Cloning-P3/blob/master/run1.mp4)).
 
-Our final data set had XXX number of pictures. During training, we shuffled the dataset at each epoch and divided it in 80% for training and 20% for validation, to analyze if the model is over fitting or under fitting (model.py lines 80-101).
+Our final data set had 72576 number of pictures. During training, we shuffled the dataset at each epoch and divided it in 80% for training and 20% for validation, to analyze if the model is over fitting or under fitting (model.py lines 80-101).
 
 ## 5.Image Pre-Processing (Generators)
 
 Pre-processing the data set is an important step not only to reduce the training time but also to achieve more favorable results. For every image, we first change the color space from BGR, which is the opencv color space, to RBG, which is the simulator color space. Then, we crop the image to remove areas that are not important for the model. Finally, we resize the to the final size of 200x66 pixels. Figure 2, 3, 4 and 5 depict every step of our pre-processing functions (model.py lines 13-79). 
 
-![alt text][image2=100x20]
-
-![alt text][image3=100x20]
-![alt text][image4=100x20]
-![alt text][image5=100x20]
+<img src="original.jpg"  width="300" > <br>
+Original Image <br>
+<img src="flip.png" width="300" > <br>
+Flipped Image <br>
+<img src="crop.png" width="300" > <br>
+Cropped Image <br>
+<img src="resize.png" width="300" > <br>
+Resized Image <br>
 
 
 It is important to mention that all these pre-processing functions are encapsulated into a python generator to be executed online with the training algorithm. Python generator is an efficient way to save memory by pre-processing these images only when requested and without hold all of then in the working memory at the same time. The generator  operates in batches of small predefined sizes.
@@ -106,6 +109,8 @@ The Convolution Neural Network implemented for this project follows the [Nvidea 
 ## 6.Training and Model parameter tuning
 
 The training algorithm employs the Adam optimizer algorithm with default values. The rest of the algorithm follows a common approach for regression problem which is to minimize the Mean Square Error (loss function). The values for the number of EPOCHS (20) and batch size (256*4=1024) were defined empirically. Another important parameter set during training was the "correction angle" mentioned at the pre-processing section. This angle is used to for the left and right cameras to force the car to return to the center of the road. From our empirical tests, we have set this angle to 0.25. Figure 7 presents the loss function for training and validation data sets (model.py lines 132-157). 
+
+![alt text][image6]
 
 ## 7.Results (Simulation)
 
