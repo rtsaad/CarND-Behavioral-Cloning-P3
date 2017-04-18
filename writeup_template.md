@@ -26,10 +26,10 @@ This project requires the [Udacity Simulator](https://github.com/udacity/self-dr
 [//]: # (Image References)
 
 [image1]: simulator.png "NN Driving the car"
-[image2]: original.jpg=100x20 "Recovery Image"
-[image3]: flip.png=100x20 "Flipped Image"
-[image4]: crop.png=100x20 "Croped Image"
-[image5]: resize.png=100x20 "Resized Image"
+[image2]: (original.jpg =100x20) "Recovery Image"
+[image3]: (flip.png =100x20) "Flipped Image"
+[image4]: (crop.png =100x20) "Croped Image"
+[image5]: (resize.png =100x20) "Resized Image"
 [image6]: loss1.png "Loss Chart" 
 
 ## 3.How to use this project
