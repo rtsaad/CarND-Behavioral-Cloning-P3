@@ -60,15 +60,17 @@ Our final data set had 72576 number of pictures. During training, we shuffled th
 
 Pre-processing the data set is an important step not only to reduce the training time but also to achieve more favorable results. For every image, we first change the color space from BGR, which is the opencv color space, to RBG, which is the simulator color space. Then, we crop the image to remove areas that are not important for the model. Finally, we resize the to the final size of 200x66 pixels. Figure 2, 3, 4 and 5 depict every step of our pre-processing functions (model.py lines 13-79). 
 
-<img src="flip.png" align="left" width="50" >
-
-![alt text][image2]
+<img src="original.png" align="left" width="200" >
+#![alt text][image2]
 Original Image
-![alt text][image3]
+<img src="flip.png" align="left" width="200" >
+#![alt text][image3]
 Flipped Image
-![alt text][image4]
+<img src="crop.png" align="left" width="200" >
+#![alt text][image4]
 Cropped Image
-![alt text][image5]
+<img src="resize.png" align="left" width="200" >
+#![alt text][image5]
 Resized Image
 
 
