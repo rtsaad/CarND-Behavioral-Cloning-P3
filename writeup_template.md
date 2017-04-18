@@ -63,7 +63,7 @@ Pre-processing the data set is an important step not only to reduce the training
 ![alt text][image2]
 
 ![alt text][image3]
-![alt text width=100][image4]
+![alt text width=10][image4]
 ![alt text][image5]
 
 
