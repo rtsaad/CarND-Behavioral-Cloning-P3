@@ -54,7 +54,7 @@ The data set used to train the model was obtained from the Udacity Simulator. Th
 
 The recovery from sides was achieved using the left and right camera images by adding a "correction angle" to the steering to force the car to regain the center of the road. Finally, the data collection was also augmented by flipping the center camera image otherwise the car would have a tendency to turn to the left because we collected data following only one direction. All this together proved sufficient to achieve the smooth steering shown in our results ([video](https://github.com/otomata/CarND-Behavioral-Cloning-P3/blob/master/run1.mp4)).
 
-Our final data set had XXX number of pictures. During training, we shuffled the dataset at each epoch and divided it in 80% for training and 20% for validation, to analyze if the model is over fitting or under fitting (model.py lines 80-101).
+Our final data set had 72576 number of pictures. During training, we shuffled the dataset at each epoch and divided it in 80% for training and 20% for validation, to analyze if the model is over fitting or under fitting (model.py lines 80-101).
 
 ## 5.Image Pre-Processing (Generators)
 
