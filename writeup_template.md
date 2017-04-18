@@ -1,129 +1,113 @@
-#**Behavioral Cloning** 
+# Self Driving Car Behavioral Cloning
 
-##Writeup Template
+This project consists of the development and training of a Convolution Neural Network (CNN) to clone human behavior for self-driving purpose. It uses the Udacity Car Simulator for training, test and validation. 
 
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
+The main goals for this project is to develop a End-To-End Neural Network that gets as input the video from a camera positioned in front of the car and outputs the car steering angle. Figure 1 depicts the Udacity Simulator using the CNN to drive the car, the top right shows the image collected by the camera in front of the car. 
 
----
+![alt text][image1]
 
-**Behavioral Cloning Project**
+## 1.Access 
 
-The goals / steps of this project are the following:
-* Use the simulator to collect data of good driving behavior
-* Build, a convolution neural network in Keras that predicts steering angles from images
-* Train and validate the model with a training and validation set
-* Test that the model successfully drives around track one without leaving the road
-* Summarize the results with a written report
+The source code for this project is available at [project code](https://github.com/otomata/CarND-Behavioral-Cloning-P3).
 
+## 2.Files
+
+The following files are part of this project:
+* model.py:   Contains the Convolution Neural Network implemented using Keras framework, together with the pipeline necessary to train and validate the model;
+* model.h5:   Neural Network weights saved during training (model.py);
+* driver.py:  Script that connects the NN with the Udacity Car Simulator for testing and validation;
+* videos:     Data source used for training and validation.
+* run1.mp4:   Video of the car driving autonomously on track one.
+
+### Dependency
+
+This project requires the [Udacity Simulator](https://github.com/udacity/self-driving-car-sim) in order to use the Convolution Neural Network to drive the car autonomously.
 
 [//]: # (Image References)
 
-[image1]: ./examples/placeholder.png "Model Visualization"
-[image2]: ./examples/placeholder.png "Grayscaling"
-[image3]: ./examples/placeholder_small.png "Recovery Image"
-[image4]: ./examples/placeholder_small.png "Recovery Image"
-[image5]: ./examples/placeholder_small.png "Recovery Image"
-[image6]: ./examples/placeholder_small.png "Normal Image"
-[image7]: ./examples/placeholder_small.png "Flipped Image"
+[image1]: simulator.png "NN Driving the car"
+[image2]: original.jpg "Recovery Image"
+[image3]: flip.png "Flipped Image"
+[image4]: crop.png "Croped Image"
+[image5]: resize.png "Resized Image"
+[image6]: loss1.png "Loss Chart" 
 
-## Rubric Points
-###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
+## 3.How to use this project
 
----
-###Files Submitted & Code Quality
+### Training the Model
 
-####1. Submission includes all required files and can be used to run the simulator in autonomous mode
+The Convolution Neural Network provided with this project can be trained by executing the following command:
 
-My project includes the following files:
-* model.py containing the script to create and train the model
-* drive.py for driving the car in autonomous mode
-* model.h5 containing a trained convolution neural network 
-* writeup_report.md or writeup_report.pdf summarizing the results
+```sh
+python model.py
+```
 
-####2. Submission includes functional code
-Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
+### Driving Autonomously
+To drive the car autonomously, this project requires the [Udacity Simulator](https://github.com/udacity/self-driving-car-sim). After installing and starting the simulator, the car can be driven autonomously around the track by executing the following command:
 ```sh
 python drive.py model.h5
 ```
 
-####3. Submission code is usable and readable
+## 4.Training Data 
 
-The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
+The data set used to train the model was obtained from the Udacity Simulator. The procedure to collect data followed an empirical process. First, we have driven three laps, in one direction only, at the first track  trying to stay as much as possible aligned at the center of the road. After this first batch of data collection, we tried to train the model. From the behavior shown by our car, we have observed that our model failed on the sharp corners where the side lanes are blurred. From this observation, we  collected more data concerning these corners, which are the corners after the bridge. 
 
-###Model Architecture and Training Strategy
+The recovery from sides was achieved using the left and right camera images by adding a "correction angle" to the steering to force the car to regain the center of the road. Finally, the data collection was also augmented by flipping the center camera image otherwise the car would have a tendency to turn to the left because we collected data following only one direction. All this together proved sufficient to achieve the smooth steering shown in our results ([video](https://github.com/otomata/CarND-Behavioral-Cloning-P3/blob/master/run1.mp4)).
 
-####1. An appropriate model architecture has been employed
+Our final data set had XXX number of pictures. During training, we shuffled the dataset at each epoch and divided it in 80% for training and 20% for validation, to analyze if the model is over fitting or under fitting (model.py lines 80-101).
 
-My model consists of a convolution neural network with 3x3 filter sizes and depths between 32 and 128 (model.py lines 18-24) 
+## 5.Image Pre-Processing (Generators)
 
-The model includes RELU layers to introduce nonlinearity (code line 20), and the data is normalized in the model using a Keras lambda layer (code line 18). 
-
-####2. Attempts to reduce overfitting in the model
-
-The model contains dropout layers in order to reduce overfitting (model.py lines 21). 
-
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
-
-####3. Model parameter tuning
-
-The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 25).
-
-####4. Appropriate training data
-
-Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road ... 
-
-For details about how I created the training data, see the next section. 
-
-###Model Architecture and Training Strategy
-
-####1. Solution Design Approach
-
-The overall strategy for deriving a model architecture was to ...
-
-My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
-
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
-
-To combat the overfitting, I modified the model so that ...
-
-Then I ... 
-
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
-
-At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
-
-####2. Final Model Architecture
-
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
-
-Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
-
-![alt text][image1]
-
-####3. Creation of the Training Set & Training Process
-
-To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
+Pre-processing the data set is an important step not only to reduce the training time but also to achieve more favorable results. For every image, we first change the color space from BGR, which is the opencv color space, to RBG, which is the simulator color space. Then, we crop the image to remove areas that are not important for the model. Finally, we resize the to the final size of 200x66 pixels. Figure 2, 3, 4 and 5 depict every step of our pre-processing functions (model.py lines 13-79). 
 
 ![alt text][image2]
-
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
-
 ![alt text][image3]
 ![alt text][image4]
 ![alt text][image5]
 
-Then I repeated this process on track two in order to get more data points.
 
-To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
-
-![alt text][image6]
-![alt text][image7]
-
-Etc ....
-
-After the collection process, I had X number of data points. I then preprocessed this data by ...
+It is important to mention that all these pre-processing functions are encapsulated into a python generator to be executed online with the training algorithm. Python generator is an efficient way to save memory by pre-processing these images only when requested and without hold all of then in the working memory at the same time. The generator  operates in batches of small predefined sizes.
 
 
-I finally randomly shuffled the data set and put Y% of the data into a validation set. 
+## 4.Neural Network Architecture
 
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
+The Convolution Neural Network implemented for this project follows the [Nvidea End-To-End Deep Network for self driving cars](https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/). The network consists of 5 convolution layers followed by 5 fully connected layers. The input is a RGB image (of three channels) of 66x200 pixes -- which is normalized by a lambda keras function -- and the output is the value of the hyperbolic tangent activation function. In addition, we have augmented this network with four additional dropout layers to cope with the over fitting. We started by adding dropouts to the control layers (flatten layer). This dropout layer alone reduced significantly the overfiting but not enough for smooth driving. So, we started to add more dropouts for the convolution layers that are closer to the flatten layer because they have a more concrete notion of the image.  Figure 6 presents the network architecture (model.py lines 106-130).
+
+| Layer        		|     Description	        		| 
+|:---------------------:|:---------------------------------------------:| 
+| Input        		| 66x200x3 RBG image   				| 
+| Normalization 	| Lambda, outputs 66x200x3			|
+| Convolution 5x5     	| 2x2 stride, valid padding, outputs 31x98x24 	|
+| RELU					|				|
+| Convolution 5x5     	| 2x2 stride, valid padding, outputs 14x47x36 	|
+| RELU					|                               |
+| Convolution 5x5     	| 2x2 stride, valid padding, outputs 5x22x48 	|
+| RELU					|		                |
+| Convolution 3x3     	| 1x1 stride, valid padding, outputs 3x20x64 	|
+| RELU			|						|
+| Dropout	        | Training probability of 20% 			|
+| Convolution 3x3     	| 1x1 stride, valid padding, outputs 1x18x64 	|
+| RELU			|						|
+| Dropout	        | Training probability of 20% 			|
+| Flatten		| 1164 neurons       				|
+| RELU			|						|
+| Dropout	    	| Training probability of 50%     		|
+| Fully connected	| output 100       				|
+| RELU			|						|
+| Dropout	    	| Training probability of 50%     		|
+| Fully connected	| output 50       				|
+| RELU			|						|
+| Fully connected	| output 10					|
+| RELU			|						|
+| Fully connected	| output 1					|
+| TANH			|						|
+
+## 6.Training and Model parameter tuning
+
+The training algorithm employs the Adam optimizer algorithm with default values. The rest of the algorithm follows a common approach for regression problem which is to minimize the Mean Square Error (loss function). The values for the number of EPOCHS (20) and batch size (256*4=1024) were defined empirically. Another important parameter set during training was the "correction angle" mentioned at the pre-processing section. This angle is used to for the left and right cameras to force the car to return to the center of the road. From our empirical tests, we have set this angle to 0.25. Figure 7 presents the loss function for training and validation data sets (model.py lines 132-157). 
+
+## 7.Results (Simulation)
+
+The simulation presented in our [video](https://github.com/otomata/CarND-Behavioral-Cloning-P3/blob/master/run1.mp4) demonstrates that our model was able to meet the safety requirements. Our car drives smooth around the first track without leaving the road.
+
+
